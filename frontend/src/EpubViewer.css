@@ -1,0 +1,604 @@
+.viewer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+}
+
+
+.viewer-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    z-index: 1005;
+}
+
+.viewer-nav-btn:hover {
+    background-color: #2b262c;
+    color: #ffffff;
+    border-color: #2b262c;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.viewer-nav-btn.prev {
+    left: -60px; /* 책 프레임 경계선에 걸치도록 절반쯤 내보냄 */
+}
+
+.viewer-nav-btn.next {
+    right: -60px;
+}
+
+.book-frame {
+    width: 1150px;
+    height: 100vh;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02);
+    padding: 40px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-contents: center;
+    align-items: center;
+
+    flex-direction: column;
+    border: 1px solid #e2e8f0;
+    position: relative;
+    background-color: #BFBFBF;
+}
+
+
+.book-area {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+.book-frame::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 50%;
+    background-color: white; /* 부드러운 종이색 */
+    /* 둥글기 순서: [좌상] [우상-안쪽] [우하-안쪽] [좌하] */
+    border-radius: 12px 24px 24px 12px;
+    z-index: 1;
+    pointer-events: none;
+    box-shadow: 0 0 31.1px 13px rgba(111, 101, 80, 0.04) inset;
+
+    display: flex;
+    justify-contents: center;
+    align-items: center;
+}
+
+.book-frame::after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 50%; /* 정확히 오른쪽 절반 차지 */
+    right: 0px;
+    background-color: white;
+    /* 둥글기 순서: [좌상-안쪽] [우상] [우하] [좌하-안쪽] */
+    border-radius: 24px 12px 12px 24px;
+    z-index: 1;
+    pointer-events: none;
+
+    box-shadow: 0 0 31.1px 13px rgba(111, 101, 80, 0.04) inset;
+}
+
+
+.memo-bubble {
+    position: absolute;
+    width: 400px;
+    border: 0px solid #e2e8f0;
+    padding: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    z-index: 1002;
+
+    border-radius: 16px;
+    background-color: #F6F5F0;
+}
+
+.bubble-arrow {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 16px;
+    height: 16px;
+    border-left: 0px solid #e2e8f0;
+    border-top: 0px solid #e2e8f0;
+    background-color: #F6F5F0;
+
+}
+
+.bubble-form-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    padding-bottom: 20px;
+}
+
+.bubble-textarea {
+    width: 90%;
+    height: 80px;
+    padding: 12px;
+    border: 0px solid #e2e8f0;
+    font-family: "Pretendard", sans-serif;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.40);
+
+    border-radius: 12px;
+    background: #F2F1EA;
+
+
+}
+
+.bubble-btn-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.bubble-submit-btn {
+    padding: 6px 6px;
+    color: rgba(43, 38, 44, 0.73);
+    leading-trim: both;
+    text-edge: cap;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 10px; /* 428.571% */
+
+
+    width: 50px;
+    height: 30px;
+
+    border-radius: 21.5px;
+    border: 0 solid #A9A9A9;
+    background: #EDEAE3;
+}
+
+.memo-marker {
+    position: absolute;
+    width: 32px;
+    height: 20px;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.selection-choice {
+    position: absolute;
+    display: flex;
+    gap: 6px;
+    padding: 5px 8px;
+    background: #F6F4F0;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    z-index: 10;
+}
+
+.selection-choice-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #e2e8f0;
+    background: #98958E;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.selection-choice-btn:hover {
+    background: #f8fafc;
+    transform: scale(1.08);
+}
+
+.selection-choice-btn:active {
+    transform: scale(0.95);
+}
+
+.selection-choice-btn .choice-icon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+
+.marker-tooltip {
+    position: absolute;
+    width: 220px;
+    padding: 10px 12px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    z-index: 30; /* 마커(20)보다 위 */
+    pointer-events: none; /* 마우스 이벤트 안 받음 -> 깜빡임 방지 */
+}
+
+.marker-tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.marker-tooltip-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.marker-tooltip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.marker-tooltip-nickname {
+    font-size: 13px;
+    color: #2b262c;
+}
+
+.marker-tooltip-content {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #475569;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.marker-tooltip-image {
+    margin-top: 6px;
+    width: 100%;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+}
+
+.marker-tooltip-comments {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #e2e8f0;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.marker-tooltip-comment {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    font-size: 12px;
+    padding: 3px 0;
+}
+
+.marker-tooltip-comment-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.marker-tooltip-comment-nickname {
+    color: #2b262c;
+    flex-shrink: 0;
+}
+
+.marker-tooltip-comment-text {
+    color: #64748b;
+    word-break: break-word;
+}
+.marker-popup {
+    position: absolute;
+    width: 230px;
+    height: 380px;
+    padding: 18px 16px 14px;
+    background: #F6F4F0;
+    border-radius: 20px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.marker-popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid #d6d3ce;
+    background: #fff;
+    cursor: pointer;
+    font-size: 11px;
+    color: #78716c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.marker-popup-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    padding-right: 34px; /* 닫기 버튼과 안 겹치도록 */
+}
+
+
+/* 메모 영역 - 강조 (그림자 있는 카드로 살짝 띄움) */
+.marker-popup-memo {
+    margin-bottom: 12px;
+}
+
+.marker-popup-image-wrap {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.marker-popup-image {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    display: block;
+}
+
+.marker-popup-caption {
+     position: absolute;
+     left: 8px;
+     bottom: 8px;
+     max-width: calc(100% - 16px);
+     display: flex;
+     align-items: center;
+     gap: 6px;
+     padding: 4px 10px 4px 4px;
+     border-radius: 16px;
+     border-width: 0.8px;
+     border-style: solid;
+     font-size: 12px;
+     color: #2b262c;
+ }
+
+.marker-popup-caption-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+
+.marker-popup-content {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    margin-top: 6px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border-width: 0.8px;
+    border-style: solid;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #2b262c;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    /* background, border-color는 JS에서 activeMarker.color 기반으로 인라인 지정됨 */
+}
+
+.marker-popup-content-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+
+
+/* 코멘트 영역 - 차분하게, 메모보다 존재감 낮춤 */
+.popup-comments {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-comment-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.popup-comment-list::-webkit-scrollbar {
+    display: none;
+}
+
+.popup-comment-row {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    font-size: 13px;
+    padding: 5px 5px;
+    flex-wrap: wrap;
+    border-radius: 12px;
+    border-width: 0.8px;
+    border-style: solid;
+}
+
+.popup-comment-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.popup-comment-nickname {
+    color: #57534e;
+    flex-shrink: 0;
+}
+
+.popup-comment-text {
+    color: #78716c;
+    word-break: break-word;
+}
+
+.popup-comment-actions {
+    margin-left: auto;
+    display: none; /* 평소엔 숨김 */
+    gap: 4px;
+}
+
+.popup-comment-row:hover .popup-comment-actions {
+    display: flex; /* hover 시에만 수정/삭제 노출 */
+}
+
+.popup-comment-actions button {
+    font-size: 10px;
+    color: #a8a29e;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 2px;
+}
+
+.popup-comment-add-toggle {
+    align-self: center;
+    width: 200px;
+    height: 26px;
+    border-radius: 14px;
+    background: #EDEAE3;
+    border: none;
+    cursor: pointer;
+    color: #78716c;
+    font-size: 16px;
+    line-height: 1;
+    margin-top: 8px;
+    flex-shrink: 0;
+}
+
+.popup-comment-form {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    flex-shrink: 0;
+}
+
+.popup-comment-input {
+    flex: 1;
+    font-size: 12px;
+    padding: 6px 7px;
+    border-radius: 14px;
+    border: 1px solid #e7e5e4;
+    outline: none;
+    background: #fff;
+}
+
+.popup-comment-submit {
+    font-size: 10px;
+    padding: 6px 12px;
+    border-radius: 14px;
+    border: none;
+    background: #2b262c;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* 코멘트에 첨부된 이미지 */
+.popup-comment-image-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.popup-comment-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #e7e5e4;
+    flex-shrink: 0;
+}
+
+.popup-comment-image-delete {
+    font-size: 10px;
+    color: #a8a29e;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 2px;
+    display: none; /* 평소엔 숨김 - hover 시 노출 */
+}
+
+.popup-comment-row:hover .popup-comment-image-delete {
+    display: inline-block;
+}
+
+/* 코멘트 작성 폼 - 파일 입력 추가로 인한 레이아웃 조정 */
+.popup-comment-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    flex-shrink: 0;
+}
+
+.popup-comment-file {
+    font-size: 10px;
+    color: #78716c;
+    max-width: 110px;
+}
+
+.popup-comment-file::file-selector-button {
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    border: 1px solid #e7e5e4;
+    background: #EDEAE3;
+    color: #57534e;
+    cursor: pointer;
+    margin-right: 6px;
+}

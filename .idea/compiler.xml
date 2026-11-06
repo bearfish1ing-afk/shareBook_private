@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.30/f195ee86e6c896ea47a1d39defbe20eb59cd149d/lombok-1.18.30.jar" />
+        </processorPath>
+        <module name="com.shareBook.bookShare.server.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bookShare.server" target="17" />
+      <module name="bookShare.server.main" target="17" />
+      <module name="bookShare.server.test" target="17" />
+      <module name="com.shareBook.bookShare.server" target="17" />
+      <module name="com.shareBook.bookShare.server.main" target="17" />
+      <module name="com.shareBook.bookShare.server.test" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bookShare.server" options="-parameters" />
+      <module name="bookShare.server.main" options="-parameters" />
+      <module name="bookShare.server.test" options="-parameters" />
+      <module name="com.shareBook.bookShare.server" options="-parameters" />
+      <module name="com.shareBook.bookShare.server.main" options="-parameters" />
+      <module name="com.shareBook.bookShare.server.test" options="-parameters" />
+    </option>
+  </component>
+</project>

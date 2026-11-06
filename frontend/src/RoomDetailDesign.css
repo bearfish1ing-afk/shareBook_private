@@ -1,0 +1,554 @@
+/* 1. 배경 레이어 오버레이 */
+.room-info-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #d6d5d3; /* 사진 바탕의 차분한 웜그레이 톤 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.room-info-overlay .side-box {
+  position: absolute;
+  top: 18px;
+  left: 14px;
+  z-index: 10;
+}
+
+/* 2. 대형 화이트 모달 바디 */
+.room-info-modal {
+  background-color: #f7f7f7;
+  width: 1000px;
+  height: 600px;
+  border-radius: 15px;
+  display: flex;
+  position: absolute;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+/* 닫기 엑스 버튼 */
+.room-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #777;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* 3. 왼쪽 책장 사이드바 구조 */
+.room-sidebar {
+  width: 230px;
+  height: 100%;
+  margin-left: 15px;
+  background-color: #fcfcfc;
+  border-radius: 15px;
+  border: 1px solid #eaeaea;
+  padding: 30px 20px;
+  align-self: center;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.sidebar-title {
+  font-size: 13px;
+  background-color: #e5e5e5;
+  color: #777;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-weight: 500;
+  margin-bottom: 40px;
+}
+
+.book-scroller {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  align-items: center;
+  width: 100%;
+  overflow-y: auto;
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.book-scroller::-webkit-scrollbar {
+  width: 6px;
+}
+
+.book-scroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.book-scroller::-webkit-scrollbar-thumb {
+  background-color: #d1d1d1;
+  border-radius: 10px;
+}
+
+.book-scroller::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a8a8;
+}
+
+.sidebar-arrow-down {
+  width: 36px;
+  height: 36px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+/* 4. 오른쪽 메인 대시보드 구조 */
+.room-main-content {
+  flex: 1;
+  padding: 40px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  /* align-self: center; */
+  box-sizing: border-box;
+}
+
+.room-header-section {
+  width: 600px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  align-self: center;
+  border-bottom: 1.5px solid #dbdbdb;
+  padding-bottom: 8px;
+}
+
+.room-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.room-main-title {
+  font-size: 26px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.room-main-title-input {
+  font-size: 26px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  width: 100%;
+}
+
+.room-edit-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-bottom: -13px;
+  opacity: 0.5;
+}
+.room-edit-icon:hover { opacity: 1; }
+
+.room-invite-code {
+  color: #999;
+  font-size: 14px;
+}
+
+/* 5. 가운데 하이라이트 배너 (블러 처리된 배경 디자인) */
+.room-highlight-banner {
+  width: 600px;
+  background-color: #ffffff; /* 시안처럼 어두운 그레이 가림 처리 */
+  border-radius: 16px;
+  border-bottom: 0.5px solid #c6c6c6 ;
+  position: relative;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+}
+
+.room-highlight-banner:hover {
+  background-color: #f4f4f4; /* 시안 오른쪽 사진의 차분한 쥐색 */
+}
+
+.highlight-text-blur {
+  font-size: 16px;
+  color: #000000;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+
+  padding: 0 50px;
+  width: 100%;
+  box-sizing: border-box;
+
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.room-highlight-banner:hover .highlight-text-blur {
+  filter: blur(2px);
+  opacity: 0.15;
+}
+
+.room-highlight-banner:hover .member-circle-banner {
+  filter: blur(2px);
+  opacity: 0.15;
+}
+
+.highlight-meta {
+  font-size: 15px;
+  color: #000000;
+  opacity: 0;          /* 평소에는 투명하게 투명망토 씌우기 */
+  visibility: hidden;  /* 혹시 모를 클릭 방해 방지로 아예 가려두기 */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.highlight-book-title {
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.hl-color-dot{
+  position: absolute;
+  bottom: 10px;
+  right: 24px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  color: white;
+  border: 2px solid #f7f7f7;
+}
+
+.room-highlight-banner:hover .highlight-meta{
+  opacity: 1;
+  visibility: visible;
+}
+.highlight-book-title { font-weight: bold; }
+
+.member-circle-banner {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+  right: 24px;
+  border-radius: 50%;
+}
+
+/* 6. 하단 유저 목록 행 스택 구조 */
+.room-member-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  width: 600px;
+  position: relative;
+  align-self: center;
+}
+.room-member-section :hover {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+}
+
+.member-row {
+  display: flex;
+  align-items: center;
+  padding: 8px ;
+  border-radius: 10px;
+}
+
+.member-avatar-wrapper {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  margin-right: 16px;
+}
+
+.member-avatar-circle {
+  width: 100%;
+  height: 100%;
+  background-color: #eaeaea;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.member-info-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-self: center;
+}
+
+.member-info{
+    display: flex;
+    gap: 3px;
+    /* padding-top: 10px; */
+}
+
+.member-nickname {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.member-initial-badge {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  color: white;
+  border: 2px solid #f7f7f7;
+}
+
+.me-prefix {
+  color: #e91e63;
+  font-weight: bold;
+}
+
+.member-status {
+  font-size: 12px;
+  color: #888;
+}
+
+/* 독서왕, 메모왕 캡슐 알약 배지 스타일 */
+.member-achievement-badge {
+  background-color: #ffffff;
+  border: 1px solid #74b9ff;
+  color: #333333;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(116, 185, 255, 0.15);
+}
+
+/* 1. 커스텀 컬러 팝업 상자 전체 틀 */
+.custom-color-popover {
+  position: absolute;
+  bottom: 35px; /* 내 프사 단추 머리 위에 안착 */
+  right: 0;
+  z-index: 999;
+  background: #ffffff;
+  border-radius: 4px;
+  /* 트위터 피커 특유의 고급스러운 입체 그림자 복제 ㅡㅡ b */
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 12px;
+  padding: 8px;
+}
+
+/* 2. 말풍선 꼬리표 화살표 만들기 */
+.popover-triangle-arrow {
+  position: absolute;
+  bottom: -6px;
+  right: 12px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #ffffff; /* 흰색 삼각형 꼭지점 */
+}
+
+/* 3. 5열 가로 정렬 격자판 상자 */
+.color-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 5개씩 딱딱 끊어서 한 줄 배치 */
+  gap: 6px;
+  width: 200px; /* 네모 단추들이 이쁘게 배치되는 너비 고정 */
+}
+
+.color-swatch-item-room {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.1s ease;
+}
+
+.color-swatch-item:not(:disabled):hover {
+  transform: scale(1.15);
+}
+
+.color-swatch-item.is-taken {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.swatch-check-mark {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 900;
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* 1. 사이드바 상단 편집/완료 토글 버튼 */
+.book-list-edit-toggle-btn {
+  background: transparent;
+  border: 1px solid #d1d1d1;
+  color: #555;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.book-list-edit-toggle-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+
+.book-edit-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2); 
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  z-index: 20;
+  
+  animation: fadeInOverlay 0.2s ease-in-out forwards; 
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.edit-action-btn {
+  width: 80%;
+  padding: 8px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease;
+}
+
+.edit-action-btn:active {
+  transform: scale(0.95); 
+}
+
+.edit-action-btn.complete-btn {
+  background-color: #dddddd;
+  color: #575757;
+}
+
+.edit-action-btn.delete-btn {
+  background-color: #fff1f0;
+  color: #ff4d4f;
+}
+
+/* 1. 책 추가(+) 버튼 */
+.book-add-card {
+  width: 40px;
+  height: 40px;
+  border-radius: 7px;
+  cursor: pointer;
+  position: relative;
+  transform: skew(-10deg);
+  transition: transform 0.2s;
+  border: 2px solid #434343;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-add-card .plus-icon {
+  font-size: 28px;
+  color: #434343;
+  transform: rotate(10deg);
+}
+
+.tilted-book-card {
+  width: 100px;
+  height: 120px;
+  border-radius: 16px;
+  cursor: pointer;
+  position: relative;
+  transform: skew(-10deg);
+  box-shadow: -8px 12px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease;
+  border: none;
+  padding: 0;
+}
+
+.book-add-card:hover, 
+.tilted-book-card:hover {
+  transform: skew(-10deg) scale(1.03);
+}
+
+.tilted-book-card.editing {
+  transform: scale(0.98); 
+  transition: transform 0.2s ease;
+}
+
+
+/* 3. 책 표지 래퍼 (부모에 100% 찰싹 맞춤) */
+.book-title-vertical {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.book-title-vertical img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

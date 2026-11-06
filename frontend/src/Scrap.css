@@ -1,0 +1,265 @@
+/* ==========================================================
+   Scrap.css — 스크랩 화면
+   배경/탭/사이드바 여백은 BookShelf와 동일한 구조.
+   안쪽은 피그마처럼 2단 카드 + 형광펜 하이라이트.
+   ========================================================== */
+
+.scrap-page {
+    --sidebar-w: 90px; /* 기존 Sidebar 너비에 맞게 조절 */
+    position: relative;
+    height: 100vh;          /* 페이지 자체는 화면 크기로 고정 */
+    overflow: hidden;       /* 페이지 스크롤 잠금 — 스크롤은 패널 안에서 */
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    color: #1f1b1d;
+    background: #f0eeec;
+}
+
+/* 피그마 배경의 사선 면(facet) 디테일 — 책장과 동일 */
+.scrap-page::before,
+.scrap-page::after {
+    content: "";
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.scrap-page::before {
+    top: -20%;
+    left: -10%;
+    width: 70%;
+    height: 140%;
+    background: linear-gradient(115deg,
+        rgba(255,255,255,.9) 0%,
+        rgba(255,255,255,.45) 38%,
+        rgba(255,255,255,0) 39%);
+    transform: rotate(-2deg);
+}
+
+.scrap-page::after {
+    bottom: -30%;
+    right: -12%;
+    width: 65%;
+    height: 130%;
+    background: linear-gradient(295deg,
+        rgba(255,255,255,.85) 0%,
+        rgba(223,219,215,.5) 30%,
+        rgba(223,219,215,0) 31%);
+    transform: rotate(3deg);
+}
+
+.scrap-content {
+    position: relative;
+    z-index: 1;
+    margin-left: var(--sidebar-w);
+    padding: 0 32px 24px;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.scrap-page .loading, .scrap-page .error {
+    padding: 80px 0;
+    text-align: center;
+    font-size: 15px;
+    color: #6f6a6d;
+}
+
+/* ---------- 상단 탭 (책장과 동일 구조) ---------- */
+
+.scrap-page .shelf-topbar {
+    padding: 20px 0 8px;
+}
+
+.scrap-page .shelf-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.scrap-page .shelf-tab {
+    border: 1px solid #e7e4e1;
+    background: #ffffff;
+    border-radius: 999px;
+    height: 46px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #6f6a6d;
+    cursor: pointer;
+    transition: all .15s ease;
+    font-family: inherit;
+}
+
+.scrap-page .shelf-tab:hover {
+    border-color: #d8d4d1;
+    color: #1f1b1d;
+}
+
+.scrap-page .shelf-tab.active {
+    background: #574a52;
+    border-color: #574a52;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ---------- 메인 패널 ---------- */
+
+.scrap-panel {
+    margin-top: 18px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;       /* 카드 크기는 고정, 내용이 카드 안에서 스크롤 */
+    background: linear-gradient(180deg, #fbfaf9, #ffffff 220px);
+    border-radius: 24px;
+    box-shadow: 0 1px 2px rgba(31,27,29,.04), 0 8px 24px rgba(31,27,29,.05);
+    padding: 36px 44px 48px;
+}
+
+/* 패널 내부 스크롤바를 얇고 은은하게 */
+.scrap-panel::-webkit-scrollbar { width: 8px; }
+.scrap-panel::-webkit-scrollbar-thumb {
+    background: #d8d4d1;
+    border-radius: 999px;
+}
+.scrap-panel::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- 빈 스크랩 ---------- */
+
+.scrap-empty {
+    padding: 64px 0;
+    text-align: center;
+    color: #6f6a6d;
+    font-size: 15px;
+}
+
+.scrap-empty .empty-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1f1b1d;
+    margin: 0 0 8px;
+}
+
+/* ---------- 2단 카드 그리드 (피그마: 좁은 2단, 지그재그 배치) ---------- */
+
+.scrap-grid {
+    column-count: 2;      /* 세로 흐름 2단 — 높이는 글 길이에 따라 자동 */
+    column-gap: 30px;
+    width: 870px;         /* 고정 폭: 카드 한 장 = (870 - 30) / 2 = 420px (피그마 스펙) */
+    max-width: 100%;      /* 화면이 좁을 때만 예외적으로 줄어듦 */
+    margin: 0 auto;
+}
+
+.scrap-card {
+    break-inside: avoid;  /* 카드가 단 사이에서 잘리지 않게 */
+    min-height: 161px;    /* 피그마 기본 카드 높이 — 내용이 길면 자동으로 늘어남 */
+    margin-bottom: 24px;
+    background: #fdfcfb;
+    border: 1px solid #f1efed;
+    border-radius: 12px;
+    padding: 16px 18px 18px;
+    box-shadow: 0 1px 2px rgba(31,27,29,.03), 0 6px 18px rgba(31,27,29,.05);
+    transition: all .15s ease;
+}
+
+.scrap-card:hover {
+    box-shadow: 0 2px 6px rgba(31,27,29,.07), 0 10px 24px rgba(31,27,29,.09);
+    transform: translateY(-2px);
+}
+
+/* 헤더: '급류 - 정대건' + 삭제 버튼 */
+.scrap-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+    color: #a5a0a3;
+    margin-bottom: 10px;
+}
+
+/* 말줄임은 텍스트 영역에만 적용 */
+.scrap-card-meta {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;   /* flex 자식에서 ellipsis 작동하게 */
+}
+
+/* 삭제 버튼 — 평소엔 투명, 카드 hover 시 표시 */
+.scrap-delete-btn {
+    flex-shrink: 0;
+    border: none;
+    background: none;
+    color: #c5c0c3;
+    font-size: 13px;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0;
+    transition: all .15s ease;
+    font-family: inherit;
+}
+
+.scrap-card:hover .scrap-delete-btn {
+    opacity: 1;
+}
+
+.scrap-delete-btn:hover {
+    color: #6f6a6d;
+    background: #edeae8;
+}
+
+/* ---------- 하이라이트 문장 (블록 전체에 파스텔 배경) ---------- */
+
+.scrap-quote {
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #2b262a;
+    word-break: keep-all;
+    white-space: pre-line;   /* 문장에 줄바꿈이 있으면 피그마처럼 여러 줄로 표시 */
+}
+
+/* 인용문 블록 배경색 (피그마: 분홍/노랑/연두/보라 파스텔 통배경) */
+.tone-pink   { background: #fbe6f2; }
+.tone-yellow { background: #fbf5dc; }
+.tone-green  { background: #e9f2e6; }
+.tone-purple { background: #efe9f8; }
+
+/* ---------- 메모 박스 (content = 내가 적은 메모) ---------- */
+
+.scrap-memo {
+    margin-top: 14px;
+    background: #ffffff;
+    border: 1px solid #efedeb;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #6f6a6d;
+    white-space: pre-wrap;
+}
+
+/* ---------- 반응형 ---------- */
+
+@media (max-width: 1024px) {
+    .scrap-grid { column-count: 1; }
+}
+
+@media (max-width: 720px) {
+    .scrap-content { margin-left: 0; padding: 0 16px 32px; }
+    .scrap-page .shelf-tabs { grid-template-columns: repeat(2, 1fr); }
+    .scrap-panel { padding: 24px 20px 32px; }
+}
+
+/* ==========================================================
+   Sidebar 로고에서 'plyead' 글자 숨기기 (스크랩 화면에서만 적용)
+   ========================================================== */
+
+.scrap-page .logo-img {
+    width: 44px;
+    object-fit: cover;
+    object-position: left;
+}

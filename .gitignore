@@ -1,0 +1,18 @@
+# --- Java & Gradle (Backend) ---
+build/
+.gradle/
+out/
+bin/
+*.class
+
+# --- IntelliJ & IDE (Must ignore!) ---
+.idea/
+*.iml
+*.iws
+*.ipr
+*.compiler.xml
+# --- OS specific ---
+.DS_Store
+Thumbs.db
+
+.env

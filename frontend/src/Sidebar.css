@@ -1,0 +1,94 @@
+.side-box {
+    height: 100%;
+    width: 105px;
+    position: absolute;
+}
+
+.sidebar-logo {
+    height: 50px;
+    width: 100px;
+}
+
+.logo-img {
+    width: 148.787px;
+    height: 41.74px;
+    position: absolute;
+    left: 30px;
+    top: 18px;
+}
+
+.logout-button {
+    background: transparent;
+    border: none;
+    color: #c9c5c0;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.15s;
+    white-space: nowrap;
+    position: absolute;
+    right: 40px;
+    top: 52px;
+}
+
+.logout-button:hover { color: #fff; }
+
+
+.figma-slider-container {
+    position: relative;
+    width: 47px;
+    height: 106px;
+    margin: 40px auto;
+
+    background: rgba(239, 239, 239, 0.5); /* 살짝 채워진 배경 */
+    border: 1px solid rgba(0, 0, 0, 0.06); /* 라인 */
+    border-radius: 23px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* 컨테이너 자체 그림자 */
+}
+
+
+
+/* 2. 움직이는 활성화 칩 (여기 높이를 바꾸면 위 버튼 overlay의 height도 똑같이 맞춰야 해요!) */
+.figma-slider-container .slide-bg {
+    position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 39px;
+        height: 48px; /* 버튼 2개 분할에 맞게 조정 */
+        background-color: rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border-radius: 23px;
+        transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 1;
+}
+
+/* 3. 버튼들을 배치하는 레이어 */
+.button-overlay {
+    position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        z-index: 2;
+}
+
+/* 실제 클릭 버튼 (수정할 필요 없음) */
+.figma-slider-container .slide-btn {
+    flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: none;
+        color: #71717a;
+        cursor: pointer;
+        transition: color 0.2s;
+}
+
+/* 활성화 상태일 때 아이콘 색상 */
+.figma-slider-container .slide-btn.active {
+    color: #5E5360 !important;
+}

@@ -1,0 +1,24 @@
+# 1. 일단 모든 파일/폴더를 차단 (범인이었던 2번째 줄)
+*
+
+# 2. 모든 디렉토리의 '통로'는 열어줌 (이게 없으면 내부를 못 들여다봐요)
+!*/
+
+# 3. 루트의 필수 설정 파일들 허용
+!.gitignore
+!build.gradle
+!settings.gradle
+!gradlew
+!gradlew.bat
+!README.md
+
+# 4. 소스 코드와 그래들 폴더 전체를 허용
+!src/**
+!gradle/**
+
+# 5. (중요) 허용된 곳 중에서도 빌드 결과물은 다시 차단
+**/build/
+**/out/
+**/.DS_Store
+
+src/main/resources/application-secret.yml

@@ -1,0 +1,337 @@
+/* ==========================================================
+   BookDetail.css — 책 상세 화면 (피그마 2번)
+   좌측은 기존 공용 Sidebar(side-box)가 차지하므로
+   .detail-content에 margin-left로 공간을 비워둠.
+   ※ Sidebar 실제 너비에 맞게 --sidebar-w 값만 조절하면 됨.
+   ========================================================== */
+
+.detail-page {
+    --sidebar-w: 90px; /* 기존 Sidebar 너비에 맞게 조절 */
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    color: #1f1b1d;
+    background: #f0eeec;
+}
+
+/* 피그마 배경의 사선 면(facet) 디테일 */
+.detail-page::before,
+.detail-page::after {
+    content: "";
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.detail-page::before {
+    top: -20%;
+    left: -10%;
+    width: 70%;
+    height: 140%;
+    background: linear-gradient(115deg,
+        rgba(255,255,255,.9) 0%,
+        rgba(255,255,255,.45) 38%,
+        rgba(255,255,255,0) 39%);
+    transform: rotate(-2deg);
+}
+
+.detail-page::after {
+    bottom: -30%;
+    right: -12%;
+    width: 65%;
+    height: 130%;
+    background: linear-gradient(295deg,
+        rgba(255,255,255,.85) 0%,
+        rgba(223,219,215,.5) 30%,
+        rgba(223,219,215,0) 31%);
+    transform: rotate(3deg);
+}
+
+.detail-content {
+    position: relative;
+    z-index: 1;
+    margin-left: var(--sidebar-w);
+    padding: 0 32px 40px;
+}
+
+.detail-page .loading, .detail-page .error {
+    padding: 80px 0;
+    text-align: center;
+    font-size: 15px;
+    color: #6f6a6d;
+}
+
+/* ---------- 상단 탭 (BookShelf와 동일 구조) ---------- */
+
+.detail-page .shelf-topbar {
+    padding: 20px 0 8px;
+}
+
+.detail-page .shelf-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.detail-page .shelf-tab {
+    border: 1px solid #e7e4e1;
+    background: #ffffff;
+    border-radius: 999px;
+    height: 46px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #6f6a6d;
+    cursor: pointer;
+    transition: all .15s ease;
+    font-family: inherit;
+}
+
+.detail-page .shelf-tab:hover {
+    border-color: #d8d4d1;
+    color: #1f1b1d;
+}
+
+.detail-page .shelf-tab.active {
+    background: #574a52;
+    border-color: #574a52;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ---------- 상세 레이아웃 ---------- */
+
+.detail-layout {
+    display: flex;
+    gap: 44px;
+    align-items: flex-start;
+    margin-top: 18px;
+    background: linear-gradient(180deg, #fbfaf9, #ffffff 220px);
+    border-radius: 24px;
+    box-shadow: 0 1px 2px rgba(31,27,29,.04), 0 8px 24px rgba(31,27,29,.05);
+    padding: 36px 44px 48px;
+}
+
+/* ---------- 1. 왼쪽 표지 패널 ---------- */
+
+.detail-cover-panel {
+    position: relative;
+    flex: 0 0 220px;
+    min-height: 480px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, #f6f4f2, #edebe8);
+    box-shadow: inset 0 0 0 1px #efedeb;
+    display: grid;
+    place-items: center;
+    padding: 56px 28px;
+}
+
+.detail-back-btn {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+
+.detail-back-btn:hover { background: rgba(31,27,29,.06); }
+
+.detail-cover {
+    width: 120px;
+    aspect-ratio: 3 / 4.4;
+    border-radius: 6px;
+    box-shadow: 0 10px 26px rgba(31,27,29,.18);
+}
+
+.detail-cover.fallback {
+    display: grid;
+    place-items: center;
+    padding: 10px;
+    background: linear-gradient(160deg, #efe9e4, #ddd5cf);
+    color: #6f6a6d;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+    word-break: keep-all;
+}
+
+/* ---------- 2. 오른쪽 메인 콘텐츠 영역 ---------- */
+
+.detail-main-content {
+    flex: 1;
+    min-width: 0;
+    padding-top: 12px;
+}
+
+/* 제목 - 저자 & 공개범위 설정 */
+.detail-header-section {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e7e4e1;
+}
+
+.detail-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.detail-author {
+    font-size: 14px;
+    color: #6f6a6d;
+}
+
+/* ---------- 상태 + 시작일/완독일 바 ---------- */
+
+.detail-status-bar {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fbfaf9;
+    border: 1px solid #efedeb;
+    border-radius: 999px;
+    padding: 8px 12px;
+}
+
+.detail-status-bar .status-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 999px;
+    padding: 5px 12px;
+    white-space: nowrap;
+}
+
+.detail-status-bar .status-badge.reading {
+    background: #e8f4f0;
+    border: 1px solid #cfe5dd;
+    color: #3e6b5c;
+}
+
+.detail-status-bar .status-badge.done {
+    background: #f4f1f3;
+    border: 1px solid #d9d2d6;
+    color: #574a52;
+}
+
+.date-box {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    color: #6f6a6d;
+    background: #efedeb;
+    border-radius: 999px;
+    padding: 7px 14px;
+}
+
+.date-sep {
+    color: #a5a0a3;
+    font-size: 13px;
+}
+
+/* ---------- 그룹 정보 카드 ---------- */
+
+.detail-group-card {
+    margin-top: 20px;
+    background: #ffffff;
+    border: 1px solid #efedeb;
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: 0 1px 2px rgba(31,27,29,.04), 0 8px 24px rgba(31,27,29,.05);
+}
+
+.group-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.group-label {
+    width: 80px;
+    font-weight: 600;
+}
+
+.group-row:last-child { margin-bottom: 0; }
+
+.my-color-dot {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #f26bd0;
+}
+
+/* ---------- 리뷰 카드 ---------- */
+
+.detail-review-card {
+    margin-top: 20px;
+    background: #fbfaf9;
+    border: 1px solid #efedeb;
+    border-radius: 16px;
+    padding: 40px 28px;
+    text-align: center;
+}
+
+.review-empty {
+    font-size: 14px;
+    color: #a5a0a3;
+    margin: 0;
+}
+
+.review-write-btn {
+    margin-top: 18px;
+    border: 1px solid #e7e4e1;
+    background: #ffffff;
+    border-radius: 999px;
+    font-size: 13px;
+    color: #6f6a6d;
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: all .15s ease;
+    font-family: inherit;
+}
+
+.review-write-btn:hover {
+    border-color: #cfcac7;
+    color: #1f1b1d;
+}
+
+/* ---------- 반응형 ---------- */
+
+@media (max-width: 1024px) {
+    .detail-layout { flex-direction: column; }
+    .detail-cover-panel { width: 100%; min-height: 320px; flex-basis: auto; }
+}
+
+@media (max-width: 720px) {
+    .detail-content { margin-left: 0; padding: 0 16px 32px; }
+    .detail-page .shelf-tabs { grid-template-columns: repeat(2, 1fr); }
+    .detail-layout { padding: 24px 20px 32px; }
+    .detail-header-section { flex-wrap: wrap; }
+}
+
+/* ==========================================================
+   Sidebar 로고에서 'plyead' 글자 숨기기 (상세 화면에서만 적용)
+   Sidebar.js / Sidebar.css는 수정하지 않음.
+   이미지 왼쪽의 책 아이콘 부분만 남기고 글자를 잘라냄.
+   ※ 아이콘이 잘리거나 글자가 남으면 width 값(44px)만 조절.
+   ========================================================== */
+
+.detail-page .logo-img {
+    width: 44px;
+    object-fit: cover;
+    object-position: left;
+}

@@ -1,0 +1,580 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(229, 228, 228, 0.29);
+}
+
+
+.info_icn {
+    width: 30px; 
+    height: auto; 
+
+}
+
+
+.color-dot {
+  width: 12px;           /* 점의 크기 */
+  height: 12px;
+  border-radius: 50%;  
+  display: inline-block; 
+  flex-shrink: 0; 
+}
+
+.topbar {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+
+.menu {
+    width: 45px;
+    height: 45px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    transition: transform 0.2s ease;
+}
+
+.main-container {
+    width: 100%;
+    min-height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+    scroll-behavior: smooth;
+}
+
+/* 아래 책 섹션 전용 클래스 새로 추가/수정 */
+.animate-section {
+    /* 기본 속도가 하드웨어 가속을 받아 부드럽게 움직이도록 제어 */
+    will-change: transform;
+    transition: transform 0.05s linear;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 100px;
+    padding-bottom: 300px;
+    /*나중에 사이드바 크기만큼으로 수정*/
+    /*padding-left: 200px;*/
+    gap: 0px;
+
+    background-color: transparent;
+
+
+width: calc(100% - 200px);
+    margin-left: 200px;
+    box-sizing: border-box;
+    flex-grow: 1;
+
+}
+
+/* 안내 문구 여백 (여기서 첫 세팅 때 거리를 벌려줌) */
+.scroll-hint-text {
+    margin-top: 180px;
+    margin-bottom: 20px;
+    color: #888;
+    font-size: 14px;
+    will-change: opacity;
+    transition: opacity 0.05s linear;
+}
+
+
+.horizontal-section {
+    width: 800px;
+    height: 298px;
+    padding: 35px 70px;
+    margin-bottom: 0px;
+
+    border-radius: 20px;
+    border: 1px solid rgba(235, 235, 235, 0.86);
+    background: #F7F6F6;
+    box-shadow: 0 4px 80px -56px rgba(0, 0, 0, 0.85);
+    will-change: transform;
+
+}
+
+.horizontal-section-book {
+    width: 940px;
+    height: 368px;
+    padding: 0;
+    margin-bottom: 0px;
+    margin-top: 20px;
+
+
+    will-change: transform;
+
+}
+
+
+
+.horizontal-section h3 {
+    margin-top: 0px;
+    padding-top: 0;
+    margin-bottom: 25px;
+    padding-left: 10px;
+
+    color: #423B44;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: Pretendard;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px; /* 333.333% */
+    background-color: #F7F6F6;
+
+
+
+}
+
+.horizontal-section-book h3 {
+    margin-top: 0px;
+    padding-top: 0;
+    margin-bottom: 25px;
+    padding-left: 10px;
+
+    color: #423B44;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: Pretendard;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px; /* 333.333% */
+    background-color: transparent;
+
+
+
+}
+
+
+.main-room-header {
+    background-color: white;
+}
+
+
+
+
+
+/*여기부터 복붙 */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.card-list {
+    display: flex;
+    gap: 25px;
+    overflow-x: auto; /* 가로 스크롤 활성화 */
+    padding-bottom: 10px;
+    scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
+}
+
+.card-list-book {
+    width: 100%;
+    height: auto;
+    display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: center;
+     flex-wrap: wrap;
+     gap: 20px;
+     padding-bottom: 10px;
+     scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
+     position: relative;
+ }
+
+/*.card-list::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리 스크롤바 숨김
+}*/
+
+/* 스크롤바 디자인 (크롬, 사파리) */
+.card-list::-webkit-scrollbar {
+    height: 6px;
+}
+.card-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+
+/* 책 표지 이미지 */
+.book-cover {
+    width: 93px;
+    height: 145px;              /* 93 × 161/103 ≈ 145 — 고정값으로 통일 */
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #f0f0f0;
+    border: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+/* 표지 이미지가 없을 때의 대체 표지 */
+.book-cover-fallback {
+    display: grid;
+    place-items: center;
+    padding: 8px;
+    background: linear-gradient(160deg, #efe9e4, #ddd5cf);
+    color: #6f6a6d;
+    font-family: Pretendard;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+    word-break: keep-all;
+    overflow: hidden;
+}
+
+/*
+.book-card:hover {
+    transform: translateY(-5px); /* 호버 시 살짝 들림
+}
+*/
+
+.bookcard-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: auto;
+    height: 75%;
+}
+
+.bookcard-line {
+margin-top: 58px;
+margin-bottom: 0;
+width: 200px;
+height: 0.5px;
+stroke-width: 1.5px;
+background-color: rgba(197, 197, 195, 0.50);
+}
+
+/* 책 표지 이미지 */
+.book-cover {
+
+    width: 93px;
+    height: auto;
+    aspect-ratio: 103/161;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #f0f0f0; /* 이미지 없을 때 배경색 */
+    border: 1px solid #eee;
+}
+
+/* 책 제목 텍스트 */
+.book-title-text {
+    width: 100%;
+    margin-top: 0px;
+    color: #2B262C;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px; /* 375% */
+
+
+    /* 두 줄 이상이면 ... 처리 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    margin-bottom: 0;
+}
+
+.book-author-text {
+color: rgba(43, 38, 44, 0.73);
+leading-trim: both;
+text-edge: cap;
+font-family: Pretendard;
+font-size: 12px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px; /* 428.571% */
+margin-top: 0;
+}
+
+/* 빈 상태 메시지 */
+.empty {
+    color: #999;
+    font-size: 0.9rem;
+    padding: 20px;
+}
+
+
+
+.add-room-btn {
+    background: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+/* 방 카드 디자인 */
+.room-item {
+    flex: 0 0 auto;
+    width: 239px;
+    height: 246px;
+    border-radius: 16px;
+    border: 0.2px solid rgba(183, 183, 183, 0.19);
+    background: #F1F2F3;
+
+    background: linear-gradient(76deg, rgba(240, 236, 127, 0.03) -5.87%, rgba(182, 214, 190, 0.03) 62.37%, rgba(147, 197, 235, 0.03) 86.3%);
+    box-shadow: 0 2px 38.6px -14px rgba(0, 0, 0, 0.09) inset;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.2s;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    transition: background 0.2s ease, border 0.2s ease;
+}
+
+/*.room-item:hover { transform: translateY(-5px); }*/
+.room-item:hover {
+
+border-radius: 16px;
+border: 1px solid var(--unnamed, #93C5EB);
+background-color: rgba(58, 57, 53, 0.47);
+
+background-image: linear-gradient(340deg, #93C5EB 5.22%, #B6D6BE 41.71%, #F0EC7F 76.71%, #FFBD9A 101.36%);
+
+}
+
+.room-item:hover p {
+color: white;}
+
+
+.room-border {
+    background-color: yellow;
+    width: 93%;
+    height: 73%;
+
+    position: relative;
+    top: 3%;
+overflow: hidden; /* 오버레이가 모서리 밖으로 빠져나가지 않게 */
+    display: flex;
+        justify-content: center;
+        align-items: center;
+
+    border: 0.3px solid rgba(183, 183, 183, 0.29);
+
+    border-radius: 12px;
+    background: linear-gradient(76deg, rgba(240, 236, 127, 0.03) -5.87%, rgba(182, 214, 190, 0.03) 62.37%, rgba(147, 197, 235, 0.03) 86.3%);
+    box-shadow: 0 4px 24.6px -2px rgba(0, 0, 0, 0.09);
+
+}
+
+.room-item:hover .room-border{
+    border: 1px solid var(--unnamed, #93C5EB);
+    background-color: #C8CCC8;
+    box-shadow: 0 4px 24.6px -2px rgba(0, 0, 0, 0.09);
+}
+
+
+.room-name {
+color: #625E62;
+text-align: center;
+leading-trim: both;
+text-edge: cap;
+font-family: Pretendard;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 30px; /* 375% */
+
+}
+
+.room-img {
+
+    width: 147.465px;
+    height: 135.834px;
+    aspect-ratio: 110/161;
+
+}
+
+/* 반투명 + 블러 처리를 담당할 오버레이 레이어 */
+.room-hover-overlay,
+.book-hover-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* 어두운 반투명 배경 + 뒷배경 흐리게(블러) 처리 */
+    background-color: rgba(0, 0, 0, 0.2); /* 어두운 막을 살짝 씌움 */
+    backdrop-filter: blur(2px);            /* 이 부분이 핵심! 이미지를 흐리게 만듦 */
+    -webkit-backdrop-filter: blur(6px);    /* 사파리 브라우저 호환성 */
+
+    /* 중앙 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 기본 상태에서는 투명하게 숨김 */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* 부드러운 스윽- 효과 */
+}
+
+
+.book-hover-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* 어두운 반투명 배경 + 뒷배경 흐리게(블러) 처리 */
+    background-color: rgba(0, 0, 0, 0.2); /* 어두운 막을 살짝 씌움 */
+    backdrop-filter: blur(2px);            /* 이 부분이 핵심! 이미지를 흐리게 만듦 */
+    -webkit-backdrop-filter: blur(6px);    /* 사파리 브라우저 호환성 */
+
+    /* 중앙 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 기본 상태에서는 투명하게 숨김 */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* 부드러운 스윽- 효과 */
+
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+}
+
+.room-hover-name {
+    position: absolute;
+    color: #FFF;
+    text-align: center;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 60px; /* 375% */
+    word-break: keep-all;
+    padding: 0 15px;
+
+}
+
+/* 4. 마우스를 올렸을 때(Hover)의 변화 */
+.room-item:hover .room-hover-overlay,
+.book-card:hover .book-hover-overlay{
+    opacity: 1;
+}
+
+.book-hover-button {
+    width: 120px;         /* 버튼 크기 (원하는 대로 조절 가능) */
+        height: 45px;
+        border-radius: 16px;
+        background: rgba(58, 57, 53, 0.07);
+        border: 0.1px solid #3A393512;
+        border-color:  rgba(58, 57, 50, 0.05);
+        color: #FFF;
+        text-align: center;
+        leading-trim: both;
+        text-edge: cap;
+        font-family: Pretendard;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 428.571% */
+        cursor: pointer;
+        transition: all 0.2s ease;
+    padding: 0;
+
+}
+
+/* 5. 버튼에 마우스 올렸을 때 반응 (사용자 경험 향상) */
+.book-hover-button:hover {
+
+    border: 1px solid transparent;
+        border-radius: 16px;
+        background-image: linear-gradient(rgba(58, 57, 53, 0.43), rgba(58, 57, 53, 0.43)),
+                          linear-gradient(340deg,
+                              rgba(147, 197, 235, 0.4) 5.22%,  /* #93C5EB 옅게 */
+                              rgba(182, 214, 190, 0.4) 41.71%, /* #B6D6BE 옅게 */
+                              rgba(240, 236, 127, 0.4) 76.71%, /* #F0EC7F 옅게 */
+                              rgba(255, 189, 154, 0.4) 101.36% /* #FFBD9A 옅게 */
+                          );
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+}
+
+.book-hover-box:hover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    background: rgba(230, 235, 240, 0.07);
+}
+
+
+.room-tag {
+    color: rgba(43, 38, 44, 0.73);
+    leading-trim: both;
+    text-edge: cap;
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px; /* 428.571% */
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+
+
+.room-stats {
+    margin-top: auto;
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    gap: 10px;
+}
+
+.bookReadingButton {
+    width: 80px;
+    height: 30px;
+    margin-top: 18px;
+
+}
+
+.ReadingSectionBox{
+     display: flex;
+     flex-direction: row;
+     gap: 20px;
+}
+

@@ -1,0 +1,474 @@
+/* ==========================================================
+   BookShelf.css — 책장 목록 화면 (피그마 1번)
+   좌측은 기존 공용 Sidebar(side-box)가 차지하므로
+   .shelf-content에 margin-left로 공간을 비워둠.
+   ※ Sidebar 실제 너비에 맞게 --sidebar-w 값만 조절하면 됨.
+   ========================================================== */
+
+.shelf-page {
+    --sidebar-w: 90px; /* 기존 Sidebar 너비에 맞게 조절 */
+    position: relative;
+    height: 100vh;          /* 페이지 자체는 화면 크기로 고정 */
+    overflow: hidden;       /* 페이지 스크롤 잠금 — 스크롤은 패널 안에서 */
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    color: #1f1b1d;
+    background: #f0eeec;
+}
+
+/* 피그마 배경의 사선 면(facet) 디테일 */
+.shelf-page::before,
+.shelf-page::after {
+    content: "";
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.shelf-page::before {
+    top: -20%;
+    left: -10%;
+    width: 70%;
+    height: 140%;
+    background: linear-gradient(115deg,
+        rgba(255,255,255,.9) 0%,
+        rgba(255,255,255,.45) 38%,
+        rgba(255,255,255,0) 39%);
+    transform: rotate(-2deg);
+}
+
+.shelf-page::after {
+    bottom: -30%;
+    right: -12%;
+    width: 65%;
+    height: 130%;
+    background: linear-gradient(295deg,
+        rgba(255,255,255,.85) 0%,
+        rgba(223,219,215,.5) 30%,
+        rgba(223,219,215,0) 31%);
+    transform: rotate(3deg);
+}
+
+.shelf-content {
+    position: relative;
+    z-index: 1;
+    margin-left: var(--sidebar-w);
+    padding: 0 32px 24px;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- 로딩 / 에러 ---------- */
+
+.loading, .error {
+    padding: 80px 0;
+    text-align: center;
+    font-size: 15px;
+    color: #6f6a6d;
+}
+
+/* ---------- 상단 탭 내비게이션 ---------- */
+
+.shelf-topbar {
+    padding: 20px 0 8px;
+}
+
+.shelf-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.shelf-tab {
+    border: 1px solid #e7e4e1;
+    background: #ffffff;
+    border-radius: 999px;
+    height: 46px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #6f6a6d;
+    cursor: pointer;
+    transition: all .15s ease;
+    font-family: inherit;
+}
+
+.shelf-tab:hover {
+    border-color: #d8d4d1;
+    color: #1f1b1d;
+}
+
+.shelf-tab.active {
+    background: #5E5360;
+    border-color: #574a52;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ---------- 본문 레이아웃 ---------- */
+
+.shelf-layout {
+    display: flex;
+    align-items: stretch;
+    gap: 18px;
+    padding-top: 18px;
+    flex: 1;
+    min-height: 0;          /* 자식 패널이 넘칠 때 내부 스크롤이 생기도록 */
+}
+
+/* ---------- 초성 인덱스 레일 ---------- */
+
+.index-rail {
+    align-self: flex-start;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 8px 4px;
+    min-width: 44px;
+}
+
+.index-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.index-item .tick {
+    display: block;
+    width: 18px;
+    height: 3px;
+    border-radius: 2px;
+    background: #cfcac7;
+    transition: all .15s ease;
+}
+
+.index-item .label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6f6a6d;
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 3px 7px;
+    box-shadow: 0 1px 2px rgba(31,27,29,.04), 0 8px 24px rgba(31,27,29,.05);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all .15s ease;
+    pointer-events: none;
+}
+
+.index-item:hover .label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.index-item:hover .tick {
+    background: #f26bd0;
+    transform: rotate(-24deg) scaleX(1.15);
+}
+
+/* ---------- 메인 패널 ---------- */
+
+.shelf-panel {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    overflow-y: auto;       /* 카드 크기는 고정, 내용이 카드 안에서 스크롤 */
+    background: linear-gradient(180deg, #fbfaf9, #ffffff 220px);
+    border-radius: 24px;
+    box-shadow: 0 1px 2px rgba(31,27,29,.04), 0 8px 24px rgba(31,27,29,.05);
+    padding: 36px 44px 48px;
+}
+
+/* 패널 내부 스크롤바를 얇고 은은하게 */
+.shelf-panel::-webkit-scrollbar { width: 8px; }
+.shelf-panel::-webkit-scrollbar-thumb {
+    background: #d8d4d1;
+    border-radius: 999px;
+}
+.shelf-panel::-webkit-scrollbar-track { background: transparent; }
+
+.section-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #a5a0a3;
+    margin: 0 0 18px;
+}
+
+/* ---------- 빈 책장 ---------- */
+
+.shelf-empty {
+    padding: 64px 0;
+    text-align: center;
+    color: #6f6a6d;
+    font-size: 15px;
+}
+
+.shelf-empty .empty-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1f1b1d;
+    margin: 0 0 8px;
+}
+
+/* ---------- 표지 (대체 표지) ---------- */
+
+.book-cover {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    width: 130px;
+    height: 190px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(31,27,29,.14);
+}
+
+.book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.book-cover.fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px;
+
+    background: linear-gradient(
+        160deg,
+        #efe9e4,
+        #ddd5cf
+    );
+
+    color: #6f6a6d;
+    font-size: 12px;
+    font-weight: 700;
+
+    text-align: center;
+    line-height: 1.4;
+
+    word-break: keep-all;
+}
+
+
+.book-cover.fallback span {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+/* ---------- 상태 배지 (피그마: 회색 톤의 은은한 필) ---------- */
+
+.status-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 999px;
+    padding: 5px 12px;
+    white-space: nowrap;
+    background: #f7f5f4;
+    border: 1px solid #e7e4e1;
+    color: #6f6a6d;
+}
+
+/* 읽는 중 */
+.status-badge.reading {
+    background: #EAF4FF;
+    border: 1px solid #B7D8F7;
+    color: #2A6DB3;
+}
+
+/* 중단 */
+.status-badge.suspended {
+    background: #FFF4D6;
+    border: 1px solid #FFD37A;
+    color: #A56A00;
+}
+
+/* 완독 */
+.status-badge.done {
+    background: #F4F1F3;
+    border: 1px solid #D9D2D6;
+    color: #574A52;
+}
+
+/* ---------- 최근 방문 카드 ---------- */
+
+.recent-card {
+    display: flex;
+    gap: 32px;
+    align-items: stretch;
+    max-width: 520px;
+    min-height: 180px;
+    background: #ffffff;
+    border: 1px solid #efedeb;
+    border-radius: 16px;
+    padding: 28px 32px;
+    transition: all .15s ease;
+}
+
+.recent-card:hover {
+    box-shadow: 0 2px 6px rgba(31,27,29,.08), 0 12px 28px rgba(31,27,29,.10);
+    transform: translateY(-2px);
+}
+
+.recent-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.recent-info-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* 하단 방 이름 + 인원 (피그마: 구분선 아래 '경제스터디팟 / 4명') */
+.recent-info-bottom {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid #efedeb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.recent-room-name { color: #1f1b1d; }
+.recent-member-count { color: #6f6a6d; }
+
+.panel-divider {
+    border: none;
+    border-top: 1px solid #efedeb;
+    margin: 34px 0;
+}
+
+/* ---------- 초성 섹션 + 책 그리드 ---------- */
+
+.group-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 20px 8px;
+    scroll-margin-top: 96px;
+}
+
+.group-heading::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #1f1b1d;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    column-gap: 48px;
+    row-gap: 36px;
+    margin-bottom: 48px;
+}
+
+.book-card {
+    display: flex;
+    gap: 28px;
+    align-items: stretch;
+    background: #ffffff;
+    border: 1px solid #efedeb;
+    border-radius: 16px;
+    padding: 24px 28px;
+    transition: all .15s ease;
+}
+
+.book-card:hover {
+    box-shadow: 0 2px 6px rgba(31,27,29,.08), 0 12px 28px rgba(31,27,29,.10);
+    transform: translateY(-2px);
+}
+
+.book-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.book-title {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.book-author {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #6f6a6d;
+}
+
+/* 하단 방 이름 + 인원 (최근 방문 카드와 동일한 디자인) */
+.book-room-info {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid #efedeb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    min-width: 0;
+}
+
+.book-room-name {
+    color: #1f1b1d;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.book-room-count {
+    color: #6f6a6d;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+/* ---------- 반응형 ---------- */
+
+@media (max-width: 1024px) {
+    .book-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+    .shelf-content { margin-left: 0; padding: 0 16px 32px; }
+    .shelf-tabs { grid-template-columns: repeat(2, 1fr); }
+    .shelf-layout { flex-direction: column; }
+    .index-rail { display: none; }
+    .shelf-panel { padding: 24px 20px 32px; }
+    .recent-card { max-width: none; }
+}
+
+/* ==========================================================
+   Sidebar 로고에서 'plyead' 글자 숨기기 (책장 화면에서만 적용)
+   Sidebar.js / Sidebar.css는 수정하지 않음.
+   이미지 왼쪽의 책 아이콘 부분만 남기고 글자를 잘라냄.
+   ※ 아이콘이 잘리거나 글자가 남으면 width 값(44px)만 조절.
+   ========================================================== */
+
+.shelf-page .logo-img {
+    width: 44px;
+    object-fit: cover;
+    object-position: left;
+}

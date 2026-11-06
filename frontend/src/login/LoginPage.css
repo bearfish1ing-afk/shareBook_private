@@ -1,0 +1,60 @@
+/* 전체 컨테이너: 화면 중앙 정렬 */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff; /* 배경색은 디자인에 맞춰 조절 */
+    position: relative;
+    font-family: 'Pretendard', sans-serif; /* 예시 폰트 */
+}
+
+
+/* 실제 로그인 콘텐츠 */
+.login-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* 타이틀 */
+.login-title {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.login-button img {
+    width: 100;
+}
+
+.login-button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; 
+    width: 100%; 
+    align-items: flex-start; 
+}
+
+.login-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex; 
+    outline: none; 
+}
+
+
+.login-button img {
+    width: 340px; 
+    height: auto; 
+    display: block;
+    transition: transform 0.2s ease; /* 호버효과 */
+}
+
+.login-button:hover img {
+    opacity: 0.9;
+    transform: scale(0.98);
+}
